@@ -35,6 +35,7 @@ export default function ProfileTabs({ onSwitchProfile }: ProfileTabsProps) {
   const [newColor, setNewColor] = useState(PROFILE_COLORS[0])
   const [editingProfileId, setEditingProfileId] = useState<string | null>(null)
   const [editName, setEditName] = useState('')
+  const [editColor, setEditColor] = useState(PROFILE_COLORS[0])
   const newInputRef = useRef<HTMLInputElement>(null)
   const editInputRef = useRef<HTMLInputElement>(null)
 
@@ -63,18 +64,19 @@ export default function ProfileTabs({ onSwitchProfile }: ProfileTabsProps) {
     setNewColor(PROFILE_COLORS[0])
   }, [newName, newColor, addProfile])
 
-  const handleStartEdit = useCallback((profileId: string, name: string) => {
+  const handleStartEdit = useCallback((profileId: string, name: string, color: string) => {
     setEditingProfileId(profileId)
     setEditName(name)
+    setEditColor(color)
   }, [])
 
   const handleSaveEdit = useCallback(async () => {
     if (!editingProfileId) return
     if (editName.trim()) {
-      await updateProfile(editingProfileId, { name: editName.trim() })
+      await updateProfile(editingProfileId, { name: editName.trim(), color: editColor })
     }
     setEditingProfileId(null)
-  }, [editingProfileId, editName, updateProfile])
+  }, [editingProfileId, editName, editColor, updateProfile])
 
   const handleDelete = useCallback(async (e: React.MouseEvent, profileId: string) => {
     e.stopPropagation()
@@ -95,22 +97,41 @@ export default function ProfileTabs({ onSwitchProfile }: ProfileTabsProps) {
             className="group relative flex items-center"
           >
             {isEditing ? (
-              <input
-                ref={editInputRef}
-                value={editName}
-                onChange={e => setEditName(e.target.value)}
-                className="px-2 py-0.5 text-2xs font-semibold rounded border bg-bg-primary text-text-primary w-24"
-                style={{ borderColor: profile.color }}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') void handleSaveEdit()
-                  if (e.key === 'Escape') setEditingProfileId(null)
-                }}
-                onBlur={() => void handleSaveEdit()}
-              />
+              <div className="flex items-center gap-1">
+                <input
+                  ref={editInputRef}
+                  value={editName}
+                  onChange={e => setEditName(e.target.value)}
+                  className="px-2 py-0.5 text-2xs font-semibold rounded border bg-bg-primary text-text-primary w-20"
+                  style={{ borderColor: editColor }}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') void handleSaveEdit()
+                    if (e.key === 'Escape') setEditingProfileId(null)
+                  }}
+                  onBlur={() => void handleSaveEdit()}
+                />
+                <div className="flex gap-0.5">
+                  {PROFILE_COLORS.map(color => (
+                    <button
+                      key={color}
+                      className="w-3 h-3 rounded-full border transition-transform"
+                      style={{
+                        backgroundColor: color,
+                        borderColor: color === editColor ? 'white' : 'transparent',
+                        transform: color === editColor ? 'scale(1.25)' : undefined,
+                      }}
+                      onMouseDown={e => {
+                        e.preventDefault()
+                        setEditColor(color)
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
             ) : (
               <button
                 onClick={() => { if (!isActive) onSwitchProfile(profile.id) }}
-                onDoubleClick={() => handleStartEdit(profile.id, profile.name)}
+                onDoubleClick={() => handleStartEdit(profile.id, profile.name, profile.color)}
                 className="px-2 py-0.5 text-2xs font-semibold rounded border cursor-pointer transition-opacity hover:opacity-80 pr-5"
                 style={isActive ? {
                   backgroundColor: `${profile.color}20`,
