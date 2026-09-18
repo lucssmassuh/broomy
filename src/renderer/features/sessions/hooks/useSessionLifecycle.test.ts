@@ -99,6 +99,8 @@ function makeHookParams(overrides: Partial<Parameters<typeof useSessionLifecycle
     checkGhAvailability: vi.fn().mockResolvedValue(undefined),
     checkGitAvailability: vi.fn().mockResolvedValue(undefined),
     switchProfile: vi.fn().mockResolvedValue(undefined),
+    openProfileInNewWindow: vi.fn().mockResolvedValue(undefined),
+    profileMode: 'tabs' as const,
     markSessionRead: vi.fn(),
     updateReviewStatus: vi.fn(),
     ...overrides,

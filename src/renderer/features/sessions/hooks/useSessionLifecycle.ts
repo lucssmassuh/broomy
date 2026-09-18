@@ -72,6 +72,8 @@ export function useSessionLifecycle({
   checkGhAvailability,
   checkGitAvailability,
   switchProfile,
+  openProfileInNewWindow,
+  profileMode,
   markSessionRead,
   updateReviewStatus,
 }: {
@@ -88,6 +90,8 @@ export function useSessionLifecycle({
   checkGhAvailability: () => Promise<void>
   checkGitAvailability: () => Promise<void>
   switchProfile: (profileId: string) => Promise<void>
+  openProfileInNewWindow: (profileId: string) => Promise<void>
+  profileMode: 'tabs' | 'desktops'
   markSessionRead: (sessionId: string) => void
   updateReviewStatus: (sessionId: string, status: 'pending' | 'reviewed') => void
 }) {
@@ -118,13 +122,17 @@ export function useSessionLifecycle({
     }).catch((err: unknown) => console.error('[startup] Failed to load profiles:', err))
   }, [])
 
-  // Handle profile switching: switch within the same window, reload data for the new profile
+  // Handle profile switching: in tabs mode switch within window; in desktops mode open a new window
   const handleSwitchProfile = useCallback(async (profileId: string) => {
+    if (profileMode === 'desktops') {
+      await openProfileInNewWindow(profileId)
+      return
+    }
     await switchProfile(profileId)
     await loadSessions(profileId).catch((err: unknown) => console.error('[profile-switch] Failed to load sessions:', err))
     await loadAgents(profileId).catch((err: unknown) => console.error('[profile-switch] Failed to load agents:', err))
     await loadRepos(profileId).catch((err: unknown) => console.error('[profile-switch] Failed to load repos:', err))
-  }, [switchProfile, loadSessions, loadAgents, loadRepos])
+  }, [profileMode, openProfileInNewWindow, switchProfile, loadSessions, loadAgents, loadRepos])
 
   // Update window title to show active session name and profile
   useEffect(() => {

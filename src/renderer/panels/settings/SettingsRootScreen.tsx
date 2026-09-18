@@ -47,6 +47,35 @@ export function SettingsRootScreen({
         onReset={resetAppearance}
       />
 
+      {/* Profiles section */}
+      <div className="mt-6 border-t border-border pt-4">
+        <h3 className="text-sm font-medium text-text-primary mb-1">Profiles</h3>
+        <p className="text-xs text-text-tertiary mb-3">
+          How switching profiles works.
+        </p>
+        <div className="flex gap-2">
+          {(['tabs', 'desktops'] as const).map((mode) => (
+            <button
+              key={mode}
+              type="button"
+              onClick={() => setAppearance({ profileMode: mode })}
+              className={`flex-1 px-3 py-2 text-sm rounded border transition-colors text-left ${
+                appearance.profileMode === mode
+                  ? 'border-accent bg-accent/10 text-accent'
+                  : 'border-border bg-bg-primary text-text-secondary hover:bg-bg-tertiary'
+              }`}
+            >
+              <div className="font-medium capitalize">{mode}</div>
+              <div className="text-xs mt-0.5 opacity-70">
+                {mode === 'tabs'
+                  ? 'Switch profiles in the same window'
+                  : 'Each profile opens its own window'}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* General section */}
       <div className="mt-6 border-t border-border pt-4">
         <h3 className="text-sm font-medium text-text-primary mb-3">General</h3>
