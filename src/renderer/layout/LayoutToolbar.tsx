@@ -49,16 +49,16 @@ export default function LayoutToolbar({
         className={`flex items-center gap-2 flex-shrink-0 overflow-hidden ${isMac ? 'pl-16' : 'pl-2'}`}
         style={{ WebkitAppRegion: 'no-drag', ...(sidebarWidth ? { width: sidebarWidth } : {}) } as React.CSSProperties}
       >
-        <span className="text-sm font-medium text-text-primary truncate min-w-0" style={{ WebkitAppRegion: 'drag' } as React.CSSProperties}>{title || 'Broomy'}</span>
+        <span className="text-sm font-medium text-text-primary truncate min-w-0 flex-1" style={{ WebkitAppRegion: 'drag' } as React.CSSProperties}>{title || 'Broomy'}</span>
         {isDev && (
           <span
-            className="px-1.5 py-0.5 text-3xs font-semibold rounded bg-warning-base/20 text-warning-fg border border-warning-base/30"
+            className="flex-shrink-0 px-1.5 py-0.5 text-3xs font-semibold rounded bg-warning-base/20 text-warning-fg border border-warning-base/30"
             title={`Build: ${__BUILD_COMMIT__} (${__BUILD_TIME__})`}
           >
             DEV {__BUILD_COMMIT__}
           </span>
         )}
-        {profileChip}
+        <div className="flex-shrink-0">{profileChip}</div>
       </div>
       <div
         className="flex items-center gap-2"
