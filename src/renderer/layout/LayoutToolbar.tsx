@@ -24,7 +24,6 @@ interface LayoutToolbarProps {
   onOpenPanelPicker?: () => void
   onMenuButtonClick?: () => void
   settingsPanelId: string
-  sidebarWidth?: number
 }
 
 export default function LayoutToolbar({
@@ -37,7 +36,6 @@ export default function LayoutToolbar({
   onOpenPanelPicker,
   onMenuButtonClick,
   settingsPanelId,
-  sidebarWidth,
 }: LayoutToolbarProps) {
   const isLinuxPlatform = platform === 'linux'
   return (
@@ -46,10 +44,10 @@ export default function LayoutToolbar({
       style={{ WebkitAppRegion: 'drag' } as React.CSSProperties}
     >
       <div
-        className={`flex items-center gap-2 flex-shrink-0 overflow-hidden ${isMac ? 'pl-16' : 'pl-2'}`}
-        style={{ WebkitAppRegion: 'no-drag', ...(sidebarWidth ? { width: sidebarWidth } : {}) } as React.CSSProperties}
+        className={`flex items-center gap-2 ${isMac ? 'pl-16' : 'pl-2'}`}
+        style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
       >
-        <span className="text-sm font-medium text-text-primary truncate min-w-0" style={{ WebkitAppRegion: 'drag' } as React.CSSProperties}>{title || 'Broomy'}</span>
+        <span className="text-sm font-medium text-text-primary" style={{ WebkitAppRegion: 'drag' } as React.CSSProperties}>{title || 'Broomy'}</span>
         {isDev && (
           <span
             className="px-1.5 py-0.5 text-3xs font-semibold rounded bg-warning-base/20 text-warning-fg border border-warning-base/30"

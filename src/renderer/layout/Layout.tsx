@@ -178,7 +178,6 @@ export default function Layout({
         onOpenPanelPicker={onOpenPanelPicker}
         onMenuButtonClick={onMenuButtonClick}
         settingsPanelId={PANEL_IDS.SETTINGS}
-        sidebarWidth={showSidebar ? renderSidebarWidth : undefined}
       />
 
       {topBanner}
