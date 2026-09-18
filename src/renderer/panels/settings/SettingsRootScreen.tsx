@@ -35,6 +35,7 @@ export function SettingsRootScreen({
   const appearance = useSettingsStore((st) => st.appearance)
   const resolvedTheme = useSettingsStore((st) => st.resolvedTheme)
   const setAppearance = useSettingsStore((st) => st.set)
+  const saveAppearanceNow = useSettingsStore((st) => st.saveNow)
   const resetAppearance = useSettingsStore((st) => st.reset)
   const { profiles, currentProfileId, openProfileInNewWindow } = useProfileStore()
 
@@ -63,11 +64,13 @@ export function SettingsRootScreen({
               onClick={() => {
                 setAppearance({ profileMode: mode })
                 if (mode === 'desktops') {
-                  for (const p of profiles) {
-                    if (p.id !== currentProfileId) {
-                      void openProfileInNewWindow(p.id)
+                  void saveAppearanceNow().then(() => {
+                    for (const p of profiles) {
+                      if (p.id !== currentProfileId) {
+                        void openProfileInNewWindow(p.id)
+                      }
                     }
-                  }
+                  })
                 }
               }}
               className={`flex-1 px-3 py-2 text-sm rounded border transition-colors text-left ${
