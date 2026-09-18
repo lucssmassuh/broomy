@@ -348,7 +348,6 @@ function AppContent() {
         onSidebarWidthChange={setSidebarWidth}
         onLayoutSizeChange={handleLayoutSizeChange}
         errorMessage={sessionErrorMessage(activeSession, activeDirectoryExists)}
-        title={activeSession ? activeSession.name : undefined}
         profileChip={<ProfileTabs onSwitchProfile={handleSwitchProfile} />}
         activeSessionId={activeSessionId}
         onTogglePanel={handleTogglePanel}
