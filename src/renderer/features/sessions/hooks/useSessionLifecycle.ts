@@ -118,10 +118,13 @@ export function useSessionLifecycle({
     }).catch((err: unknown) => console.error('[startup] Failed to load profiles:', err))
   }, [])
 
-  // Handle profile switching: open the profile in a new window
+  // Handle profile switching: switch within the same window, reload data for the new profile
   const handleSwitchProfile = useCallback(async (profileId: string) => {
     await switchProfile(profileId)
-  }, [switchProfile])
+    await loadSessions(profileId).catch((err: unknown) => console.error('[profile-switch] Failed to load sessions:', err))
+    await loadAgents(profileId).catch((err: unknown) => console.error('[profile-switch] Failed to load agents:', err))
+    await loadRepos(profileId).catch((err: unknown) => console.error('[profile-switch] Failed to load repos:', err))
+  }, [switchProfile, loadSessions, loadAgents, loadRepos])
 
   // Update window title to show active session name and profile
   useEffect(() => {

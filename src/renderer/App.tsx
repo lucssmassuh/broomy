@@ -11,7 +11,7 @@ import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import Layout from './layout/Layout'
 import NewSessionDialog from './features/sessions/NewSessionDialog'
 import PanelPicker from './shared/components/PanelPicker'
-import ProfileChip from './features/profiles/ProfileChip'
+import ProfileTabs from './features/profiles/ProfileTabs'
 import HelpModal from './shared/components/HelpModal'
 import ShortcutsModal from './shared/components/ShortcutsModal'
 import { useSessionStore, type Session, type SessionStatus, type LayoutSizes } from './store/sessions'
@@ -349,7 +349,7 @@ function AppContent() {
         onLayoutSizeChange={handleLayoutSizeChange}
         errorMessage={sessionErrorMessage(activeSession, activeDirectoryExists)}
         title={activeSession ? activeSession.name : undefined}
-        profileChip={<ProfileChip onSwitchProfile={handleSwitchProfile} />}
+        profileChip={<ProfileTabs onSwitchProfile={handleSwitchProfile} />}
         activeSessionId={activeSessionId}
         onTogglePanel={handleTogglePanel}
         onToggleGlobalPanel={toggleGlobalPanel}

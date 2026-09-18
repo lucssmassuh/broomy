@@ -136,7 +136,7 @@ describe('useProfileStore', () => {
   })
 
   describe('switchProfile', () => {
-    it('opens window and saves lastProfileId', async () => {
+    it('updates currentProfileId and saves lastProfileId', async () => {
       useProfileStore.setState({
         profiles: [{ id: 'p1', name: 'P1', color: '#000' }],
         currentProfileId: 'default',
@@ -144,8 +144,10 @@ describe('useProfileStore', () => {
       })
 
       await useProfileStore.getState().switchProfile('p1')
-      expect(window.profiles.openWindow).toHaveBeenCalledWith('p1')
-      expect(window.profiles.save).toHaveBeenCalled()
+      expect(useProfileStore.getState().currentProfileId).toBe('p1')
+      expect(window.profiles.save).toHaveBeenCalledWith(
+        expect.objectContaining({ lastProfileId: 'p1' })
+      )
     })
   })
 

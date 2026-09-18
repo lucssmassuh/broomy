@@ -75,10 +75,8 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
   },
 
   switchProfile: async (profileId: string) => {
-    // Open the profile in a new window (or focus existing)
-    await window.profiles.openWindow(profileId)
-    // Update lastProfileId
     const { profiles } = get()
+    set({ currentProfileId: profileId })
     await window.profiles.save({ profiles, lastProfileId: profileId })
   },
 

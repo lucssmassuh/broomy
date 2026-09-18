@@ -302,7 +302,7 @@ describe('useSessionLifecycle', () => {
   })
 
   describe('handleSwitchProfile', () => {
-    it('calls switchProfile with the given profileId', async () => {
+    it('calls switchProfile and reloads data for the new profile', async () => {
       const params = makeHookParams()
       const { result } = renderLifecycleHook(params)
 
@@ -311,6 +311,9 @@ describe('useSessionLifecycle', () => {
       })
 
       expect(params.switchProfile).toHaveBeenCalledWith('profile-2')
+      expect(params.loadSessions).toHaveBeenCalledWith('profile-2')
+      expect(params.loadAgents).toHaveBeenCalledWith('profile-2')
+      expect(params.loadRepos).toHaveBeenCalledWith('profile-2')
     })
   })
 
