@@ -6,6 +6,7 @@ import type { AgentConfig } from '../../store/agents'
 import type { ManagedRepo } from '../../../preload/index'
 import type { ShellOption } from '../../../preload/apis/types'
 import { useSettingsStore } from '../../store/settings'
+import { useProfileStore } from '../../store/profiles'
 import { AppearanceSettings } from './AppearanceSettings'
 
 interface SettingsRootScreenProps {
@@ -35,6 +36,7 @@ export function SettingsRootScreen({
   const resolvedTheme = useSettingsStore((st) => st.resolvedTheme)
   const setAppearance = useSettingsStore((st) => st.set)
   const resetAppearance = useSettingsStore((st) => st.reset)
+  const { profiles, currentProfileId, openProfileInNewWindow } = useProfileStore()
 
   return (
     <div className="space-y-4">
@@ -58,7 +60,16 @@ export function SettingsRootScreen({
             <button
               key={mode}
               type="button"
-              onClick={() => setAppearance({ profileMode: mode })}
+              onClick={() => {
+                setAppearance({ profileMode: mode })
+                if (mode === 'desktops') {
+                  for (const p of profiles) {
+                    if (p.id !== currentProfileId) {
+                      void openProfileInNewWindow(p.id)
+                    }
+                  }
+                }
+              }}
               className={`flex-1 px-3 py-2 text-sm rounded border transition-colors text-left ${
                 appearance.profileMode === mode
                   ? 'border-accent bg-accent/10 text-accent'

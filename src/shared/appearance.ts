@@ -65,7 +65,7 @@ export const DEFAULT_APPEARANCE: Appearance = {
   terminalContrast: 'auto',
   accent: '#4a9eff',
   sidebarRailColored: true,
-  profileMode: 'tabs',
+  profileMode: 'desktops',
 }
 
 export const APP_TEXT_SCALES = [1, 1.1, 1.25, 1.4] as const
